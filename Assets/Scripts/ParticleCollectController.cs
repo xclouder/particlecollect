@@ -23,11 +23,6 @@ public class ParticleCollectController : MonoBehaviour {
 
 		transform.position = from;
 
-		//here to is world postion, but Particle.position is relative to ParticleSystem.transform.position
-		//we should do something converting
-		Vector3 fixedTo = to - from;
-//		Debug.LogWarning("fixed to:" + fixedTo);
-
 		float moveTime = 0f;
 		particleSystem.Play();
 
@@ -39,7 +34,7 @@ public class ParticleCollectController : MonoBehaviour {
 			int count = particleSystem.GetParticles(particles);
 
 			for (int i=0; i<count; i++) {
-				Vector3 pos = Vector3.Lerp(particles[i].position, fixedTo, moveTime / collectDuration);
+				Vector3 pos = Vector3.Lerp(particles[i].position, to, moveTime / collectDuration);
 				particles[i].position = pos;
 			}
 			particleSystem.SetParticles(particles, count);
@@ -53,7 +48,7 @@ public class ParticleCollectController : MonoBehaviour {
 		int c = particleSystem.GetParticles(particles);
 		
 		for (int i=0; i<c; i++) {
-			particles[i].position = fixedTo;
+			particles[i].position = to;
 		}
 		particleSystem.SetParticles(particles, c);
 
